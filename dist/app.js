@@ -1,0 +1,28 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const modules_1 = __importDefault(require("./routes/modules"));
+const classes_1 = __importDefault(require("./routes/classes"));
+const assignments_1 = __importDefault(require("./routes/assignments"));
+const users_1 = __importDefault(require("./routes/users"));
+const materials_1 = __importDefault(require("./routes/materials"));
+const studentclasses_1 = __importDefault(require("./routes/studentclasses"));
+const auth_1 = __importDefault(require("./routes/auth"));
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use('/api/modules', modules_1.default);
+app.use('/api/classes', classes_1.default);
+app.use('/api/assignments', assignments_1.default);
+app.use('/api/users', users_1.default);
+app.use('/api/materials', materials_1.default);
+app.use('/api/studentclasses', studentclasses_1.default);
+app.use('/api', auth_1.default);
+app.get('/api/health', (_req, res) => {
+    res.json({ status: 'ok' });
+});
+exports.default = app;
