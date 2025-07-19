@@ -18,7 +18,8 @@ router.get('/', authenticateToken, requireRole(['admin']), async (_req, res) => 
         avatar: true,
         createdAt: true,
         status: true, // <-- incluir status
-        notes: true   // <-- incluir notes
+        notes: true,  // <-- incluir notes
+        hours: true   // <-- incluir hours
       }
     });
     console.log('[USERS] Usuarios encontrados:', users.length);
@@ -55,7 +56,8 @@ router.get('/:id', authenticateToken, async (req, res) => {
         avatar: true,
         createdAt: true,
         status: true, // <-- incluir status
-        notes: true   // <-- incluir notes
+        notes: true,  // <-- incluir notes
+        hours: true   // <-- incluir hours
       }
     });
 
@@ -107,7 +109,8 @@ router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
         avatar: true,
         createdAt: true,
         status: true, // <-- incluir status
-        notes: true   // <-- incluir notes
+        notes: true,  // <-- incluir notes
+        hours: true   // <-- incluir hours
       }
     });
     console.log('[USERS] Usuario actualizado:', updatedUser.email);

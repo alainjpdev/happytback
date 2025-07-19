@@ -30,7 +30,8 @@ router.get('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (_
                 avatar: true,
                 createdAt: true,
                 status: true, // <-- incluir status
-                notes: true // <-- incluir notes
+                notes: true, // <-- incluir notes
+                hours: true // <-- incluir hours
             }
         });
         console.log('[USERS] Usuarios encontrados:', users.length);
@@ -66,7 +67,8 @@ router.get('/:id', auth_1.authenticateToken, (req, res) => __awaiter(void 0, voi
                 avatar: true,
                 createdAt: true,
                 status: true, // <-- incluir status
-                notes: true // <-- incluir notes
+                notes: true, // <-- incluir notes
+                hours: true // <-- incluir hours
             }
         });
         if (!user) {
@@ -114,7 +116,8 @@ router.put('/:id', auth_1.authenticateToken, auth_1.canEditProfile, (req, res) =
                 avatar: true,
                 createdAt: true,
                 status: true, // <-- incluir status
-                notes: true // <-- incluir notes
+                notes: true, // <-- incluir notes
+                hours: true // <-- incluir hours
             }
         });
         console.log('[USERS] Usuario actualizado:', updatedUser.email);
