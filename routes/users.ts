@@ -79,7 +79,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
 router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
   console.log('[USERS] --- INICIO PUT /api/users/:id ---');
   const { id } = req.params;
-  const { firstName, lastName, email, avatar, status, notes } = req.body;
+  const { firstName, lastName, email, avatar, status, notes, hours } = req.body;
   
   try {
     // Verificar que el email no esté en uso por otro usuario
@@ -99,7 +99,7 @@ router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
 
     const updatedUser = await prisma.user.update({
       where: { id },
-      data: { firstName, lastName, email, avatar, status, notes }, // <-- permitir actualizar status y notes
+      data: { firstName, lastName, email, avatar, status, notes, hours }, // <-- permitir actualizar hours
       select: {
         id: true,
         email: true,
