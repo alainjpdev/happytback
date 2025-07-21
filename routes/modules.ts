@@ -68,6 +68,23 @@ router.put('/:id', authenticateToken, requireRole(['admin']), async (req, res) =
   }
 });
 
+// PUT /api/modules/reorder - actualizar orden de módulos (solo admin)
+router.put('/reorder', authenticateToken, requireRole(['admin']), async (req, res) => {
+  const { orderedIds } = req.body;
+  if (!Array.isArray(orderedIds)) return res.status(400).json({ error: 'orderedIds debe ser un array' });
+
+  try {
+    await Promise.all(
+      orderedIds.map((id, idx) =>
+        prisma.module.update({ where: { id }, data: { order: idx } })
+      )
+    );
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Error al reordenar módulos' });
+  }
+});
+
 // DELETE /api/modules/:id - eliminar módulo (solo admin)
 router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
   console.log('[MODULES] --- INICIO DELETE /api/modules/:id ---');
