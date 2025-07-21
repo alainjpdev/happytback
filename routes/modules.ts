@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import prisma from '../prisma';
+import { authenticateToken, requireRole } from '../middleware/auth';
 
 const router = Router();
 
+// GET /api/modules - listar módulos
 router.get('/', async (_req, res) => {
   console.log('[MODULES] --- INICIO GET /api/modules ---');
   try {
@@ -17,11 +19,40 @@ router.get('/', async (_req, res) => {
   }
 });
 
-// PUT /api/modules/:id - editar módulo
-router.put('/:id', async (req, res) => {
+// POST /api/modules - crear módulo (solo admin)
+router.post('/', authenticateToken, requireRole(['admin']), async (req, res) => {
+  console.log('[MODULES] --- INICIO POST /api/modules ---');
+  const { title, description, url } = req.body;
+  if (!title || !description || !url) {
+    return res.status(400).json({ error: 'Faltan campos requeridos: title, description, url' });
+  }
+  try {
+    const module = await prisma.module.create({
+      data: {
+        title,
+        description,
+        url,
+        createdById: req.user!.id
+      }
+    });
+    console.log('[MODULES] Módulo creado:', module.id);
+    res.status(201).json(module);
+    console.log('[MODULES] --- FIN POST /api/modules (éxito) ---');
+  } catch (error) {
+    console.error('[MODULES] Error al crear módulo:', error);
+    res.status(500).json({ error: 'Error al crear módulo' });
+    console.log('[MODULES] --- FIN POST /api/modules (error) ---');
+  }
+});
+
+// PUT /api/modules/:id - editar módulo (solo admin)
+router.put('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
   console.log('[MODULES] --- INICIO PUT /api/modules/:id ---');
   const { id } = req.params;
   const { title, description, url } = req.body;
+  if (!title || !description || !url) {
+    return res.status(400).json({ error: 'Faltan campos requeridos: title, description, url' });
+  }
   try {
     const updated = await prisma.module.update({
       where: { id },
@@ -37,8 +68,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/modules/:id - eliminar módulo
-router.delete('/:id', async (req, res) => {
+// DELETE /api/modules/:id - eliminar módulo (solo admin)
+router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
   console.log('[MODULES] --- INICIO DELETE /api/modules/:id ---');
   const { id } = req.params;
   try {

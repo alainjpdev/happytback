@@ -14,7 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
+const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
+// GET /api/modules - listar módulos
 router.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('[MODULES] --- INICIO GET /api/modules ---');
     try {
@@ -29,11 +31,40 @@ router.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('[MODULES] --- FIN GET /api/modules (error) ---');
     }
 }));
-// PUT /api/modules/:id - editar módulo
-router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// POST /api/modules - crear módulo (solo admin)
+router.post('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('[MODULES] --- INICIO POST /api/modules ---');
+    const { title, description, url } = req.body;
+    if (!title || !description || !url) {
+        return res.status(400).json({ error: 'Faltan campos requeridos: title, description, url' });
+    }
+    try {
+        const module = yield prisma_1.default.module.create({
+            data: {
+                title,
+                description,
+                url,
+                createdById: req.user.id
+            }
+        });
+        console.log('[MODULES] Módulo creado:', module.id);
+        res.status(201).json(module);
+        console.log('[MODULES] --- FIN POST /api/modules (éxito) ---');
+    }
+    catch (error) {
+        console.error('[MODULES] Error al crear módulo:', error);
+        res.status(500).json({ error: 'Error al crear módulo' });
+        console.log('[MODULES] --- FIN POST /api/modules (error) ---');
+    }
+}));
+// PUT /api/modules/:id - editar módulo (solo admin)
+router.put('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('[MODULES] --- INICIO PUT /api/modules/:id ---');
     const { id } = req.params;
     const { title, description, url } = req.body;
+    if (!title || !description || !url) {
+        return res.status(400).json({ error: 'Faltan campos requeridos: title, description, url' });
+    }
     try {
         const updated = yield prisma_1.default.module.update({
             where: { id },
@@ -49,8 +80,8 @@ router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         console.log('[MODULES] --- FIN PUT /api/modules/:id (error) ---');
     }
 }));
-// DELETE /api/modules/:id - eliminar módulo
-router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// DELETE /api/modules/:id - eliminar módulo (solo admin)
+router.delete('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('[MODULES] --- INICIO DELETE /api/modules/:id ---');
     const { id } = req.params;
     try {
