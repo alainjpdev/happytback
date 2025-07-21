@@ -8,9 +8,9 @@ const router = Router();
 router.get('/', async (_req, res) => {
   console.log('[MODULES] --- INICIO GET /api/modules ---');
   try {
-    const modules = await prisma.module.findMany(); // url ya está incluido por defecto
+    const modules = await prisma.module.findMany({ orderBy: { order: 'asc' } });
     console.log('[MODULES] Módulos encontrados:', modules.length);
-    res.json(modules); // No se requiere cambio si se usa findMany() directo
+    res.json(modules);
     console.log('[MODULES] --- FIN GET /api/modules (éxito) ---');
   } catch (error) {
     console.error('[MODULES] Error al obtener módulos:', error);

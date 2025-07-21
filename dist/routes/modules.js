@@ -20,9 +20,9 @@ const router = (0, express_1.Router)();
 router.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('[MODULES] --- INICIO GET /api/modules ---');
     try {
-        const modules = yield prisma_1.default.module.findMany(); // url ya está incluido por defecto
+        const modules = yield prisma_1.default.module.findMany({ orderBy: { order: 'asc' } });
         console.log('[MODULES] Módulos encontrados:', modules.length);
-        res.json(modules); // No se requiere cambio si se usa findMany() directo
+        res.json(modules);
         console.log('[MODULES] --- FIN GET /api/modules (éxito) ---');
     }
     catch (error) {
@@ -78,6 +78,19 @@ router.put('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']),
         console.error('[MODULES] Error al actualizar módulo:', err);
         res.status(500).json({ error: 'Error al actualizar módulo' });
         console.log('[MODULES] --- FIN PUT /api/modules/:id (error) ---');
+    }
+}));
+// PUT /api/modules/reorder - actualizar orden de módulos (solo admin)
+router.put('/reorder', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { orderedIds } = req.body;
+    if (!Array.isArray(orderedIds))
+        return res.status(400).json({ error: 'orderedIds debe ser un array' });
+    try {
+        yield Promise.all(orderedIds.map((id, idx) => prisma_1.default.module.update({ where: { id }, data: { order: idx } })));
+        res.json({ success: true });
+    }
+    catch (err) {
+        res.status(500).json({ error: 'Error al reordenar módulos' });
     }
 }));
 // DELETE /api/modules/:id - eliminar módulo (solo admin)
