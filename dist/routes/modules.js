@@ -16,11 +16,21 @@ const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
 const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
+// Middleware de validación de campos requeridos SOLO para POST y PUT /:id
+function validateModuleFields(req, res, next) {
+    const { title, description, url } = req.body;
+    if (!title || !description || !url) {
+        return res.status(400).json({ error: 'Faltan campos requeridos: title, description, url' });
+    }
+    next();
+}
 // GET /api/modules - listar módulos
 router.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('[MODULES] --- INICIO GET /api/modules ---');
     try {
-        const modules = yield prisma_1.default.module.findMany({ orderBy: { order: 'asc' } });
+        const modules = yield prisma_1.default.module.findMany({
+            orderBy: [{ order: 'asc' }]
+        });
         console.log('[MODULES] Módulos encontrados:', modules.length);
         res.json(modules);
         console.log('[MODULES] --- FIN GET /api/modules (éxito) ---');
@@ -31,13 +41,10 @@ router.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('[MODULES] --- FIN GET /api/modules (error) ---');
     }
 }));
-// POST /api/modules - crear módulo (solo admin)
-router.post('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// POST /api/modules (crear módulo)
+router.post('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), validateModuleFields, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('[MODULES] --- INICIO POST /api/modules ---');
     const { title, description, url } = req.body;
-    if (!title || !description || !url) {
-        return res.status(400).json({ error: 'Faltan campos requeridos: title, description, url' });
-    }
     try {
         const module = yield prisma_1.default.module.create({
             data: {
@@ -57,14 +64,11 @@ router.post('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (
         console.log('[MODULES] --- FIN POST /api/modules (error) ---');
     }
 }));
-// PUT /api/modules/:id - editar módulo (solo admin)
-router.put('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+// PUT /api/modules/:id (editar módulo)
+router.put('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), validateModuleFields, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('[MODULES] --- INICIO PUT /api/modules/:id ---');
     const { id } = req.params;
     const { title, description, url } = req.body;
-    if (!title || !description || !url) {
-        return res.status(400).json({ error: 'Faltan campos requeridos: title, description, url' });
-    }
     try {
         const updated = yield prisma_1.default.module.update({
             where: { id },
@@ -80,16 +84,17 @@ router.put('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']),
         console.log('[MODULES] --- FIN PUT /api/modules/:id (error) ---');
     }
 }));
-// PUT /api/modules/reorder - actualizar orden de módulos (solo admin)
+// PUT /api/modules/reorder (solo admin, solo valida orderedIds)
 router.put('/reorder', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { orderedIds } = req.body;
-    if (!Array.isArray(orderedIds))
+    if (!Array.isArray(orderedIds)) {
         return res.status(400).json({ error: 'orderedIds debe ser un array' });
+    }
     try {
         yield Promise.all(orderedIds.map((id, idx) => prisma_1.default.module.update({ where: { id }, data: { order: idx } })));
         res.json({ success: true });
     }
-    catch (err) {
+    catch (error) {
         res.status(500).json({ error: 'Error al reordenar módulos' });
     }
 }));
