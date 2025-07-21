@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import prisma from '../prisma';
 import { authenticateToken, canEditProfile, requireRole } from '../middleware/auth';
 
@@ -144,13 +144,18 @@ router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res
 });
 
 // GET /api/users/:id/modules - módulos asignados a un usuario
-router.get('/:id/modules', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.get('/:id/modules', authenticateToken, async (req, res) => {
   const { id } = req.params;
-  const userModules = await prisma.userModule.findMany({
+  // Usar req como any para acceder a req.user sin error de tipado
+  const user = (req as any).user;
+  if (user.role !== 'admin' && user.id !== id) {
+    return res.status(403).json({ error: 'No autorizado' });
+  }
+  const userModules = await prisma['userModule'].findMany({
     where: { userId: id },
     include: { module: true }
   });
-  res.json(userModules.map(um => um.module));
+  res.json(userModules.map((um: any) => um.module));
 });
 
 // PUT /api/users/:id/modules - actualizar módulos asignados a un usuario
