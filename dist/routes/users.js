@@ -150,4 +150,28 @@ router.delete('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin'
         console.log('[USERS] --- FIN DELETE /api/users/:id (error) ---');
     }
 }));
+// GET /api/users/:id/modules - módulos asignados a un usuario
+router.get('/:id/modules', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const userModules = yield prisma_1.default.userModule.findMany({
+        where: { userId: id },
+        include: { module: true }
+    });
+    res.json(userModules.map(um => um.module));
+}));
+// PUT /api/users/:id/modules - actualizar módulos asignados a un usuario
+router.put('/:id/modules', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const { moduleIds } = req.body;
+    if (!Array.isArray(moduleIds))
+        return res.status(400).json({ error: 'moduleIds debe ser un array' });
+    // Elimina los módulos actuales
+    yield prisma_1.default.userModule.deleteMany({ where: { userId: id } });
+    // Asigna los nuevos módulos
+    yield prisma_1.default.userModule.createMany({
+        data: moduleIds.map((moduleId) => ({ userId: id, moduleId })),
+        skipDuplicates: true
+    });
+    res.json({ success: true });
+}));
 exports.default = router;

@@ -143,4 +143,30 @@ router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res
   }
 });
 
+// GET /api/users/:id/modules - módulos asignados a un usuario
+router.get('/:id/modules', authenticateToken, requireRole(['admin']), async (req, res) => {
+  const { id } = req.params;
+  const userModules = await prisma.userModule.findMany({
+    where: { userId: id },
+    include: { module: true }
+  });
+  res.json(userModules.map(um => um.module));
+});
+
+// PUT /api/users/:id/modules - actualizar módulos asignados a un usuario
+router.put('/:id/modules', authenticateToken, requireRole(['admin']), async (req, res) => {
+  const { id } = req.params;
+  const { moduleIds } = req.body;
+  if (!Array.isArray(moduleIds)) return res.status(400).json({ error: 'moduleIds debe ser un array' });
+
+  // Elimina los módulos actuales
+  await prisma.userModule.deleteMany({ where: { userId: id } });
+  // Asigna los nuevos módulos
+  await prisma.userModule.createMany({
+    data: moduleIds.map((moduleId: string) => ({ userId: id, moduleId })),
+    skipDuplicates: true
+  });
+  res.json({ success: true });
+});
+
 export default router; 
