@@ -29,6 +29,7 @@ model User {
   enrollments     StudentClass[]
   reports         Report[]
   userModules     UserModule[]
+  assignmentModules AssignmentModule[]
 }
 
 enum Role {
@@ -48,6 +49,7 @@ model Module {
   url         String   @default("https://modulo.algoschool.ai")
   order       Int      @default(0) // Campo para ordenamiento drag & drop
   userModules UserModule[]
+  assignmentModules AssignmentModule[]
 }
 
 model Class {
@@ -129,6 +131,19 @@ model UserModule {
   moduleId String
   user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   module   Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduleId])
+}
+
+model AssignmentModule {
+  id        String   @id @default(uuid())
+  userId    String
+  moduleId  String
+  content   String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module    Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   @@unique([userId, moduleId])
 }

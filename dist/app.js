@@ -12,6 +12,7 @@ const users_1 = __importDefault(require("./routes/users"));
 const materials_1 = __importDefault(require("./routes/materials"));
 const studentclasses_1 = __importDefault(require("./routes/studentclasses"));
 const auth_1 = __importDefault(require("./routes/auth"));
+const assignmentModule_1 = __importDefault(require("./routes/assignmentModule"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -21,6 +22,7 @@ app.use('/api/assignments', assignments_1.default);
 app.use('/api/users', users_1.default);
 app.use('/api/materials', materials_1.default);
 app.use('/api/studentclasses', studentclasses_1.default);
+app.use('/api/assignment-module', assignmentModule_1.default);
 app.use('/api', auth_1.default);
 app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok' });

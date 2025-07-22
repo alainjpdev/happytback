@@ -151,13 +151,18 @@ router.delete('/:id', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin'
     }
 }));
 // GET /api/users/:id/modules - módulos asignados a un usuario
-router.get('/:id/modules', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/:id/modules', auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const userModules = yield prisma_1.default.userModule.findMany({
+    // Usar req como any para acceder a req.user sin error de tipado
+    const user = req.user;
+    if (user.role !== 'admin' && user.id !== id) {
+        return res.status(403).json({ error: 'No autorizado' });
+    }
+    const userModules = yield prisma_1.default['userModule'].findMany({
         where: { userId: id },
         include: { module: true }
     });
-    res.json(userModules.map(um => um.module));
+    res.json(userModules.map((um) => um.module));
 }));
 // PUT /api/users/:id/modules - actualizar módulos asignados a un usuario
 router.put('/:id/modules', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
