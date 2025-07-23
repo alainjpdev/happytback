@@ -84,7 +84,11 @@ router.post('/', async (req, res) => {
   if (!notionToken || !databaseId) {
     return res.status(500).json({ error: 'Faltan variables de entorno NOTION_TOKEN o NOTION_DATABASE_ID' });
   }
-  const { TaskName, Description, Status, Priority, DueDate } = req.body;
+  const taskName = req.body["Task name"];
+  if (!taskName || !taskName.trim()) {
+    return res.status(400).json({ error: 'El nombre de la tarea (Task name) es obligatorio' });
+  }
+  const { Description, Status, Priority, "Due date": DueDate } = req.body;
   try {
     const response = await axios.post(
       'https://api.notion.com/v1/pages',
@@ -95,7 +99,7 @@ router.post('/', async (req, res) => {
             title: [
               {
                 text: {
-                  content: TaskName || 'Nueva tarea desde API',
+                  content: taskName,
                 },
               },
             ],
