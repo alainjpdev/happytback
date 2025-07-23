@@ -47,7 +47,7 @@ model Module {
   createdBy   User     @relation("ModuleCreator", fields: [createdById], references: [id], onDelete: Restrict)
   classes     Class[]
   url         String   @default("https://modulo.algoschool.ai")
-  order       Int      @default(0) // Campo para ordenamiento drag & drop
+  order       Int?     // Campo para ordenamiento drag & drop
   userModules UserModule[]
   assignmentModules AssignmentModule[]
 }
