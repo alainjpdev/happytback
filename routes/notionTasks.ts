@@ -30,4 +30,27 @@ router.get('/', async (_req, res) => {
   }
 });
 
+// GET /api/notion/tasks/:id
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const notionToken = process.env.NOTION_TOKEN;
+  if (!notionToken) {
+    return res.status(500).json({ error: 'Falta NOTION_TOKEN' });
+  }
+  try {
+    const response = await axios.get(
+      `https://api.notion.com/v1/pages/${id}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${notionToken}`,
+          'Notion-Version': '2022-06-28',
+        },
+      }
+    );
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(500).json({ error: 'Error al consultar tarea de Notion', details: error?.response?.data || error.message });
+  }
+});
+
 export default router; 
