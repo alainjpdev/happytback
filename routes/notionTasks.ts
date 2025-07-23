@@ -154,7 +154,8 @@ router.patch('/:id', async (req, res) => {
     return res.status(500).json({ error: 'Falta NOTION_TOKEN' });
   }
   // Recibe las propiedades a actualizar desde el body
-  const { Status, Priority, Description, DueDate, TaskName } = req.body;
+  const { Status, Priority, Description, "Due date": DueDate } = req.body;
+  const taskName = req.body["Task name"];
   const properties: any = {};
   if (Status) {
     properties.Status = { status: { name: Status } };
@@ -168,8 +169,11 @@ router.patch('/:id', async (req, res) => {
   if (DueDate) {
     properties["Due date"] = { date: { start: DueDate } };
   }
-  if (TaskName) {
-    properties["Task name"] = { title: [{ text: { content: TaskName } }] };
+  if (typeof taskName === 'string') {
+    if (!taskName.trim()) {
+      return res.status(400).json({ error: 'El nombre de la tarea (Task name) no puede ser vacío' });
+    }
+    properties["Task name"] = { title: [{ text: { content: taskName } }] };
   }
   try {
     const response = await axios.patch(
