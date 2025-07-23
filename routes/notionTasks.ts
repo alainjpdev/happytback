@@ -186,4 +186,28 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// GET /api/notion/tasks/properties
+router.get('/properties', async (_req, res) => {
+  const notionToken = process.env.NOTION_TOKEN;
+  const databaseId = process.env.NOTION_DATABASE_ID;
+  if (!notionToken || !databaseId) {
+    return res.status(500).json({ error: 'Faltan variables de entorno NOTION_TOKEN o NOTION_DATABASE_ID' });
+  }
+  try {
+    const response = await axios.get(
+      `https://api.notion.com/v1/databases/${databaseId}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${notionToken}`,
+          'Notion-Version': '2022-06-28',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    res.json({ properties: response.data.properties });
+  } catch (error: any) {
+    res.status(500).json({ error: 'Error al consultar propiedades de Notion', details: error?.response?.data || error.message });
+  }
+});
+
 export default router; 
