@@ -53,4 +53,47 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// PATCH /api/notion/tasks/:id
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const notionToken = process.env.NOTION_TOKEN;
+  if (!notionToken) {
+    return res.status(500).json({ error: 'Falta NOTION_TOKEN' });
+  }
+  // Recibe las propiedades a actualizar desde el body
+  const { Status, Priority, Description, DueDate, TaskName } = req.body;
+  const properties: any = {};
+  if (Status) {
+    properties.Status = { status: { name: Status } };
+  }
+  if (Priority) {
+    properties.Priority = { select: { name: Priority } };
+  }
+  if (Description) {
+    properties.Description = { rich_text: [{ text: { content: Description } }] };
+  }
+  if (DueDate) {
+    properties["Due date"] = { date: { start: DueDate } };
+  }
+  if (TaskName) {
+    properties["Task name"] = { title: [{ text: { content: TaskName } }] };
+  }
+  try {
+    const response = await axios.patch(
+      `https://api.notion.com/v1/pages/${id}`,
+      { properties },
+      {
+        headers: {
+          'Authorization': `Bearer ${notionToken}`,
+          'Notion-Version': '2022-06-28',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    res.json(response.data);
+  } catch (error: any) {
+    res.status(500).json({ error: 'Error al actualizar tarea de Notion', details: error?.response?.data || error.message });
+  }
+});
+
 export default router; 
