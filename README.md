@@ -41,6 +41,28 @@
 ### /api/assignments
 - **GET /**: Lista todas las tareas.
 
+### /api/assignment-module
+- **POST /**: Guarda o actualiza el assignment personalizado de un usuario para un módulo. Body: `{ userId, moduleId, content }`. Si ya existe, lo actualiza; si no, lo crea.
+- **GET /**: Consulta el assignment personalizado de un usuario para un módulo. Query: `?userId=...&moduleId=...`.
+
+#### Buenas prácticas para endpoints personalizados
+- Usa `upsert` para evitar duplicados y simplificar lógica de creación/actualización.
+- Valida que los campos requeridos estén presentes (`userId`, `moduleId`, `content`).
+- Devuelve siempre el objeto guardado o actualizado.
+- Protege el endpoint si es necesario (por ejemplo, solo el propio usuario o admin puede guardar/consultar).
+- Usa status 400 para errores de validación y 500 para errores inesperados.
+
+#### Ejemplo de request
+```bash
+# Guardar assignment personalizado
+curl -X POST https://<tu-backend>/api/assignment-module \
+  -H "Content-Type: application/json" \
+  -d '{"userId":"...","moduleId":"...","content":"Mi respuesta"}'
+
+# Consultar assignment personalizado
+curl "https://<tu-backend>/api/assignment-module?userId=...&moduleId=..."
+```
+
 ### /api/materials
 - **GET /**: Lista todos los materiales.
 

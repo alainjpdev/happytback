@@ -8,6 +8,7 @@ import materialsRouter from './routes/materials';
 import studentClassesRouter from './routes/studentclasses';
 import authRouter from './routes/auth';
 import assignmentModuleRouter from './routes/assignmentModule';
+import notionTasksRouter from './routes/notionTasks';
 
 const app = express();
 app.use(cors());
@@ -20,6 +21,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/materials', materialsRouter);
 app.use('/api/studentclasses', studentClassesRouter);
 app.use('/api/assignment-module', assignmentModuleRouter);
+app.use('/api/notion/tasks', notionTasksRouter);
 app.use('/api', authRouter);
 
 app.get('/api/health', (_req, res) => {
