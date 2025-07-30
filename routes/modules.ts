@@ -66,22 +66,22 @@ router.put(
   requireRole(['admin']),
   validateModuleFields,
   async (req, res) => {
-    console.log('[MODULES] --- INICIO PUT /api/modules/:id ---');
-    const { id } = req.params;
-    const { title, description, url } = req.body;
-    try {
-      const updated = await prisma.module.update({
-        where: { id },
-        data: { title, description, url }
-      });
-      console.log('[MODULES] Módulo actualizado:', id);
-      res.json(updated);
-      console.log('[MODULES] --- FIN PUT /api/modules/:id (éxito) ---');
-    } catch (err) {
-      console.error('[MODULES] Error al actualizar módulo:', err);
-      res.status(500).json({ error: 'Error al actualizar módulo' });
-      console.log('[MODULES] --- FIN PUT /api/modules/:id (error) ---');
-    }
+  console.log('[MODULES] --- INICIO PUT /api/modules/:id ---');
+  const { id } = req.params;
+  const { title, description, url } = req.body;
+  try {
+    const updated = await prisma.module.update({
+      where: { id },
+      data: { title, description, url }
+    });
+    console.log('[MODULES] Módulo actualizado:', id);
+    res.json(updated);
+    console.log('[MODULES] --- FIN PUT /api/modules/:id (éxito) ---');
+  } catch (err) {
+    console.error('[MODULES] Error al actualizar módulo:', err);
+    res.status(500).json({ error: 'Error al actualizar módulo' });
+    console.log('[MODULES] --- FIN PUT /api/modules/:id (error) ---');
+  }
   }
 );
 
