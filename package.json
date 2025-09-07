@@ -7,9 +7,14 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "postinstall": "npx prisma generate",
+    "heroku-postbuild": "npx prisma generate",
     "setup": "npm install && npx prisma generate && npx prisma db push && npx ts-node prisma/seed-users.ts && npx ts-node prisma/seed.ts",
     "seed": "npx ts-node prisma/seed.ts",
     "seed-users": "npx ts-node prisma/seed-users.ts"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
   },
   "keywords": [],
   "author": "",
