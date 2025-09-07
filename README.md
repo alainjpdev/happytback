@@ -1,4 +1,4 @@
-# AlgorithmicsAI Backend
+# HappyTribe Backend
 
 ## Estructura general de la app
 
@@ -87,11 +87,19 @@ curl "https://<tu-backend>/api/assignment-module?userId=...&moduleId=..."
 
 ```bash
 # 1. Clona el repo y entra a la carpeta del backend
-cd algorithmicsai-backend
+cd happytribe-backend
 
-# 2. Ejecuta el setup completo (instala dependencias, genera Prisma, compila)
+# 2. Ejecuta el setup completo (instala dependencias, genera Prisma, compila, seed)
 npm run setup
 ```
+
+## Usuarios de prueba
+
+El sistema incluye usuarios de prueba preconfigurados:
+
+- **Estudiante**: `student@happytribe.com` / `happytribe123`
+- **Profesor**: `teacher@happytribe.com` / `happytribe123`  
+- **Admin**: `admin@happytribe.com` / `happytribe123`
 
 Variables de entorno, comandos útiles y ejemplos de uso están más abajo en este archivo.
 
@@ -118,7 +126,7 @@ JWT_SECRET="tu_secreto"
 ## Test rápido
 
 ```bash
-curl -X POST http://localhost:4000/api/login \
+curl -X POST http://localhost:3000/api/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"teach@algorithmics.com","password":"password123"}'
+  -d '{"email":"student@happytribe.com","password":"happytribe123"}'
 ``` 

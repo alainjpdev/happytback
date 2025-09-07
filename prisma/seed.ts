@@ -2,10 +2,10 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Usuarios de muestra (ya insertados previamente)
-  const student = await prisma.user.findUnique({ where: { email: 'student@algorithmics.com' } });
-  const teacher = await prisma.user.findUnique({ where: { email: 'teacher@algorithmics.com' } });
-  const admin = await prisma.user.findUnique({ where: { email: 'admin@algorithmics.com' } });
+  // Usuarios de muestra para HappyTribe
+  const student = await prisma.user.findUnique({ where: { email: 'student@happytribe.com' } });
+  const teacher = await prisma.user.findUnique({ where: { email: 'teacher@happytribe.com' } });
+  const admin = await prisma.user.findUnique({ where: { email: 'admin@happytribe.com' } });
 
   if (!student || !teacher || !admin) {
     throw new Error('Usuarios de muestra no encontrados. Ejecuta primero el seed de usuarios.');

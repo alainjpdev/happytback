@@ -1,5 +1,5 @@
-// Modelo de base de datos para Algorithmics AI
-// Generado según los tipos y relaciones reales de la app
+// Modelo de base de datos para HappyTribe
+// Sistema educativo para gestión de estudiantes, profesores y módulos
 
 generator client {
   provider = "prisma-client-js"
@@ -46,7 +46,7 @@ model Module {
   createdById String
   createdBy   User     @relation("ModuleCreator", fields: [createdById], references: [id], onDelete: Restrict)
   classes     Class[]
-  url         String   @default("https://modulo.algoschool.ai")
+  url         String   @default("https://modulo.happytribe.ai")
   order       Int?     // Campo para ordenamiento drag & drop
   userModules UserModule[]
   assignmentModules AssignmentModule[]
