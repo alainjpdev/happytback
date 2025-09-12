@@ -18,6 +18,7 @@ const router = Router();
 router.get('/', authenticateToken, requireRole(['admin']), async (_req: Request, res: Response) => {
   console.log('[USERS] --- INICIO GET /api/users ---');
   try {
+    // Query directa para debug
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -27,19 +28,66 @@ router.get('/', authenticateToken, requireRole(['admin']), async (_req: Request,
         role: true,
         avatar: true,
         createdAt: true,
-        status: true, // <-- incluir status
-        notes: true,  // <-- incluir notes
-        hours: true,  // <-- incluir hours
-        tribe: true   // <-- incluir tribe
+        status: true,
+        notes: true,
+        hours: true,
+        tribe: true
       }
     });
+    
     console.log('[USERS] Usuarios encontrados:', users.length);
+    console.log('[USERS] Primer usuario con tribu:', users[0]?.tribe);
+    
+    // Verificar que el campo tribe esté presente
+    const usersWithTribe = users.filter((user: any) => user.tribe !== null);
+    console.log('[USERS] Usuarios con tribu:', usersWithTribe.length);
+    
     res.json(users);
     console.log('[USERS] --- FIN GET /api/users (éxito) ---');
   } catch (error) {
     console.error('[USERS] Error al obtener usuarios:', error);
     res.status(500).json({ error: 'Error al obtener usuarios' });
     console.log('[USERS] --- FIN GET /api/users (error) ---');
+  }
+});
+
+// GET /api/users/debug - endpoint específico para debug (solo admin)
+router.get('/debug', authenticateToken, requireRole(['admin']), async (_req: Request, res: Response) => {
+  console.log('[USERS] --- INICIO GET /api/users/debug ---');
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        role: true,
+        avatar: true,
+        createdAt: true,
+        status: true,
+        notes: true,
+        hours: true,
+        tribe: true
+      }
+    });
+    
+    console.log('[USERS DEBUG] Total usuarios:', users.length);
+    console.log('[USERS DEBUG] Primer usuario:', users[0]);
+    
+    res.json({
+      total: users.length,
+      users: users,
+      debug: {
+        firstUserTribe: users[0]?.tribe,
+        usersWithTribe: users.filter((u: any) => u.tribe !== null).length,
+        usersWithNullTribe: users.filter((u: any) => u.tribe === null).length
+      }
+    });
+    console.log('[USERS] --- FIN GET /api/users/debug (éxito) ---');
+  } catch (error) {
+    console.error('[USERS] Error en debug:', error);
+    res.status(500).json({ error: 'Error en debug', details: error });
+    console.log('[USERS] --- FIN GET /api/users/debug (error) ---');
   }
 });
 
