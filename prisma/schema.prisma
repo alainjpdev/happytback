@@ -1,6 +1,3 @@
-// Modelo de base de datos para HappyTribe
-// Sistema educativo para gestión de estudiantes, profesores y módulos
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,100 +8,77 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  firstName String
-  lastName  String
-  role      Role
-  avatar    String?
-  createdAt DateTime @default(now())
-
-  status    String   @default("pending") // Estado del usuario
-  notes     String?  // Notas internas
-  tribe     String?  // Tribu del estudiante (Tribu 3, Tribu 4, etc.)
-
-  hours     Int?     // Horas del usuario (nuevo campo)
-  classesTaught   Class[]   @relation("TeacherClasses")
-  modulesCreated  Module[]  @relation("ModuleCreator")
-  enrollments     StudentClass[]
-  reports         Report[]
-  userModules     UserModule[]
+  id                String             @id @default(uuid())
+  email             String             @unique
+  password          String
+  firstName         String
+  lastName          String
+  role              Role
+  avatar            String?
+  createdAt         DateTime           @default(now())
+  status            String             @default("pending")
+  notes             String?
+  hours             Int?
+  tribe             String?
   assignmentModules AssignmentModule[]
-}
-
-enum Role {
-  student
-  teacher
-  admin
+  classesTaught     Class[]            @relation("TeacherClasses")
+  modulesCreated    Module[]           @relation("ModuleCreator")
+  reports           Report[]
+  enrollments       StudentClass[]
+  userModules       UserModule[]
 }
 
 model Module {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  createdAt   DateTime @default(now())
-  createdById String
-  createdBy   User     @relation("ModuleCreator", fields: [createdById], references: [id], onDelete: Restrict)
-  classes     Class[]
-  url         String   @default("https://modulo.happytribe.ai")
-  order       Int?     // Campo para ordenamiento drag & drop
-  userModules UserModule[]
+  id                String             @id @default(uuid())
+  title             String
+  description       String
+  createdAt         DateTime           @default(now())
+  createdById       String
+  url               String             @default("https://modulo.happytribe.ai")
+  order             Int?
   assignmentModules AssignmentModule[]
+  classes           Class[]
+  createdBy         User               @relation("ModuleCreator", fields: [createdById], references: [id])
+  userModules       UserModule[]
 }
 
 model Class {
-  id          String   @id @default(uuid())
+  id          String         @id @default(uuid())
   title       String
   description String
   schedule    String
   maxStudents Int
-  createdAt   DateTime @default(now())
-
+  createdAt   DateTime       @default(now())
   teacherId   String
-  teacher     User     @relation("TeacherClasses", fields: [teacherId], references: [id], onDelete: Cascade)
-
   moduleId    String
-  module      Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
-
   assignments Assignment[]
+  module      Module         @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  teacher     User           @relation("TeacherClasses", fields: [teacherId], references: [id], onDelete: Cascade)
   materials   Material[]
   enrollments StudentClass[]
 }
 
 model Assignment {
-  id          String   @id @default(uuid())
+  id          String           @id @default(uuid())
   title       String
   description String
   dueDate     DateTime
   status      AssignmentStatus @default(pending)
   classId     String
-  class       Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
-}
-
-enum AssignmentStatus {
-  pending
-  completed
-  overdue
+  createdAt   DateTime         @default(now())
+  class       Class            @relation(fields: [classId], references: [id], onDelete: Cascade)
 }
 
 model StudentClass {
-  id        String   @id @default(uuid())
+  id        String           @id @default(uuid())
   studentId String
   classId   String
   status    EnrollmentStatus @default(active)
-  joinedAt  DateTime @default(now())
-
-  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  joinedAt  DateTime         @default(now())
+  class     Class            @relation(fields: [classId], references: [id], onDelete: Cascade)
+  student   User             @relation(fields: [studentId], references: [id], onDelete: Cascade)
 
   @@unique([studentId, classId])
-}
-
-enum EnrollmentStatus {
-  active
-  pending
 }
 
 model Material {
@@ -112,8 +86,8 @@ model Material {
   title     String
   url       String
   classId   String
-  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
 }
 
 model Report {
@@ -122,16 +96,15 @@ model Report {
   type      String
   content   String
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model UserModule {
-  id       String  @id @default(uuid())
+  id       String @id @default(uuid())
   userId   String
   moduleId String
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  module   Module  @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, moduleId])
 }
@@ -142,9 +115,25 @@ model AssignmentModule {
   moduleId  String
   content   String
   createdAt DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   module    Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, moduleId])
+}
+
+enum Role {
+  student
+  teacher
+  admin
+}
+
+enum AssignmentStatus {
+  pending
+  completed
+  overdue
+}
+
+enum EnrollmentStatus {
+  active
+  pending
 }

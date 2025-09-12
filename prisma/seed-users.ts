@@ -20,6 +20,7 @@ async function main() {
       role: 'student',
       status: 'active',
       hours: 20,
+      tribe: 'Tigres',
     },
   });
 
@@ -34,6 +35,7 @@ async function main() {
       role: 'teacher',
       status: 'active',
       hours: 40,
+      tribe: 'Leones',
     },
   });
 
@@ -48,13 +50,14 @@ async function main() {
       role: 'admin',
       status: 'active',
       hours: 50,
+      tribe: 'Águilas',
     },
   });
 
   console.log('✅ Usuarios creados:');
-  console.log(`👨‍🎓 Estudiante: ${student.email}`);
-  console.log(`👨‍🏫 Profesor: ${teacher.email}`);
-  console.log(`👨‍💼 Admin: ${admin.email}`);
+  console.log(`👨‍🎓 Estudiante: ${student.email} - Tribu: ${student.tribe}`);
+  console.log(`👨‍🏫 Profesor: ${teacher.email} - Tribu: ${teacher.tribe}`);
+  console.log(`👨‍💼 Admin: ${admin.email} - Tribu: ${admin.tribe}`);
   console.log('🔑 Contraseña para todos: happytribe123');
 }
 
