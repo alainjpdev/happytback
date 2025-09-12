@@ -19,8 +19,8 @@ model User {
   status            String             @default("pending")
   notes             String?
   hours             Int?
-  tribe             String
-  group_name        String
+  tribe             String?
+  group_name        String?
   assignmentModules AssignmentModule[]
   classesTaught     Class[]            @relation("TeacherClasses")
   modulesCreated    Module[]           @relation("ModuleCreator")
