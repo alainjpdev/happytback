@@ -1,0 +1,581 @@
+{
+  "timestamp": "2025-09-12T21:10:25.040Z",
+  "users": [
+    {
+      "id": "def55c18-aa6b-423c-bd70-d5527a3ff9ec",
+      "email": "maya.dagenais@happytribe.com",
+      "firstName": "Test",
+      "lastName": "Student 2",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:52:43.997Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "1e0b700a-d089-4fe1-a3d8-f849a7dc7da7",
+      "email": "luciano.gutierrez@happytribe.com",
+      "firstName": "Luciano",
+      "lastName": "Gutierrez Barreiro",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:13.749Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "f65b61ce-bfff-4112-a1d4-29d77531d453",
+      "email": "victoria.gonzalez@happytribe.com",
+      "firstName": "Victoria",
+      "lastName": "Gonzalez",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:25.836Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "email": "teacher@happytribe.com",
+      "firstName": "Carlos",
+      "lastName": "Rodríguez",
+      "role": "teacher",
+      "avatar": null,
+      "createdAt": "2025-09-07T02:28:24.192Z",
+      "status": "active",
+      "notes": null,
+      "hours": 40
+    },
+    {
+      "id": "61680fb9-d4dc-403c-b8d4-56950d8245fc",
+      "email": "gaston.bo@happytribe.com",
+      "firstName": "Gastón",
+      "lastName": "Bo",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:26.854Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "e4211263-cb74-4823-ad63-b0baf4e5a7ca",
+      "email": "francisco.medina@happytribe.com",
+      "firstName": "Francisco",
+      "lastName": "Medina",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:27.793Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "64e5bc5a-f138-4ae1-b385-a16bdff762c8",
+      "email": "admin@happytribe.com",
+      "firstName": "María",
+      "lastName": "López",
+      "role": "admin",
+      "avatar": null,
+      "createdAt": "2025-09-07T02:28:24.430Z",
+      "status": "active",
+      "notes": null,
+      "hours": 50
+    },
+    {
+      "id": "87955e40-5f7b-4dee-adb9-fe43d6ca6369",
+      "email": "jeanpaul@algoschool.com",
+      "firstName": "Jean Paul",
+      "lastName": "Raimond",
+      "role": "teacher",
+      "avatar": null,
+      "createdAt": "2025-09-07T02:28:33.021Z",
+      "status": "active",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "b88464a0-4954-4f42-8948-74b4360ef908",
+      "email": "test2@happytribe.com",
+      "firstName": "Test",
+      "lastName": "Student 2",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:52:43.794Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "ff2fc018-67db-4ef8-8e22-d00e837560b0",
+      "email": "aylar.roufa@happytribe.com",
+      "firstName": "Aylar",
+      "lastName": "Roufa Trigo",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:29.669Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "4232b318-9baf-45dd-b971-b00d41945b46",
+      "email": "dodge.ramos@happytribe.com",
+      "firstName": "Dodge Valentino",
+      "lastName": "Ramos Cazares",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:21.238Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "74dd87ba-8896-4c52-a665-7a5cc57147ca",
+      "email": "jaxton.hart@happytribe.com",
+      "firstName": "Jaxton Hart",
+      "lastName": "Campbell",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:22.180Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "00243065-f25c-4452-b04e-c8e0c31b0a74",
+      "email": "jacob.dagenais@happytribe.com",
+      "firstName": "Jacob",
+      "lastName": "Dagenais",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:30.602Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "08fa2367-7f93-45d5-956a-b1f6a6348553",
+      "email": "kara.white@happytribe.com",
+      "firstName": "Kara",
+      "lastName": "White",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:09.609Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "c26edefb-4a87-4bc9-835c-2a1855f633a6",
+      "email": "connor.white@happytribe.com",
+      "firstName": "Connor",
+      "lastName": "White",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:10.548Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "f59168da-5938-4013-a08f-e2ad60c268a5",
+      "email": "roberta.gonzalez@happytribe.com",
+      "firstName": "Roberta",
+      "lastName": "González Díaz",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:11.721Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "6f259b93-5d46-43d7-914d-1f1f84827ca4",
+      "email": "sophie.olivier@happytribe.com",
+      "firstName": "Sophie",
+      "lastName": "Olivier Aguirre",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:12.712Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "6b4056d7-e178-4b23-9eb5-ea6b8aed7aec",
+      "email": "camila.ruiz@happytribe.com",
+      "firstName": "Camila",
+      "lastName": "Ruiz Gumeta",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:14.793Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "b9a3fde9-6628-4e6e-a138-6f5906ceedee",
+      "email": "onyx.weller@happytribe.com",
+      "firstName": "Onyx",
+      "lastName": "Weller",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:15.852Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "817b8b5c-37a6-4c9a-88c5-017999321d35",
+      "email": "lorenza.gonzalez@happytribe.com",
+      "firstName": "Lorenza",
+      "lastName": "Gonzalez",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:28.731Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "8c0377d6-ee8d-449e-88f9-89d14c2aa1bc",
+      "email": "student@happytribe.com",
+      "firstName": "Ana",
+      "lastName": "García",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-07T02:28:23.811Z",
+      "status": "pending",
+      "notes": null,
+      "hours": 20
+    },
+    {
+      "id": "6e4640d3-9150-4792-a007-64159e63cc46",
+      "email": "chase.montrose@happytribe.com",
+      "firstName": "Chase",
+      "lastName": "Montrose",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:17.836Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "2503cf5d-24b1-49b8-8b5b-9455ac620ebe",
+      "email": "maria@algoschool.com",
+      "firstName": "María",
+      "lastName": "García",
+      "role": "teacher",
+      "avatar": null,
+      "createdAt": "2025-09-07T02:28:33.603Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "67577b1d-a13a-49e1-b738-88a0b0f2924c",
+      "email": "emilio.gutierrez@happytribe.com",
+      "firstName": "Emilio",
+      "lastName": "Gutierrez Barreiro",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:24.899Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "7153f3da-dcc8-4f85-a0f3-3f467107eb2a",
+      "email": "siaan.castiglione@happytribe.com",
+      "firstName": "Siaan",
+      "lastName": "Castiglione Valenzuela",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:31.586Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "93d043a9-6007-4437-8cb1-631cea7e539a",
+      "email": "zosia.devaux@happytribe.com",
+      "firstName": "Zosia",
+      "lastName": "DeVaux Reyvela",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:18.775Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "f6ed9644-4aa6-43fb-ba18-626f62914f33",
+      "email": "owen.niessen@happytribe.com",
+      "firstName": "Owen",
+      "lastName": "Niessen",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:20.041Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    },
+    {
+      "id": "0b80d887-1ef6-4bd4-a796-8cb75392db72",
+      "email": "lucca.diaz@happytribe.com",
+      "firstName": "Lucca",
+      "lastName": "Diaz Pompa",
+      "role": "student",
+      "avatar": null,
+      "createdAt": "2025-09-12T15:53:23.717Z",
+      "status": "pending",
+      "notes": null,
+      "hours": null
+    }
+  ],
+  "classes": [
+    {
+      "id": "b2fd230f-e5a3-4bc0-a86d-dec5c914cf21",
+      "title": "JavaScript Avanzado",
+      "description": "Profundiza en JavaScript moderno",
+      "module": {
+        "title": "Fundamentos de Programación"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "37e06d66-c5bf-4a12-8174-750166073533",
+      "title": "Fundamentos de Programación",
+      "description": "Clase introductoria a la programación",
+      "module": {
+        "title": "Fundamentos de Programación"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "890a6650-223c-4679-b392-3bc4f27f6c77",
+      "title": "Desarrollo Web Frontend",
+      "description": "HTML, CSS y JavaScript para la web",
+      "module": {
+        "title": "Desarrollo Web"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "3772fd64-984f-411a-8d5c-9a3d18412e9c",
+      "title": "Clase n8n",
+      "description": "Automatización de procesos con n8n.",
+      "module": {
+        "title": "Módulo 1: n8n"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "6004cfff-809c-4639-8b65-d8c3546ebf2a",
+      "title": "Clase Vite + React",
+      "description": "Desarrollo de apps con Vite y React.",
+      "module": {
+        "title": "Módulo 2: Vite + React"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "587170d4-3c39-42d8-9eb4-2a3c7dc95a98",
+      "title": "Clase OpenAI VAPI",
+      "description": "Integración de IA y voz.",
+      "module": {
+        "title": "Módulo 3: OpenAI VAPI"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "92687d9e-a86f-4c7f-b8b2-f74853c97742",
+      "title": "Clase Supabase",
+      "description": "Bases de datos y backend en tiempo real.",
+      "module": {
+        "title": "Módulo 4: Supabase"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "dcfbcd05-fc10-4778-a01d-9ad59ba7627e",
+      "title": "Clase MCP",
+      "description": "Microservicios y cloud platforms.",
+      "module": {
+        "title": "Módulo 5: MCP"
+      },
+      "teacher": {
+        "firstName": "Carlos",
+        "lastName": "Rodríguez"
+      },
+      "teacherId": "967ddf70-a612-42d7-9a80-cb401d781453"
+    },
+    {
+      "id": "7976b33c-e25f-4937-8479-e2426e328e06",
+      "title": "Workflows con n8n",
+      "description": "Automatiza tareas repetitivas.",
+      "module": {
+        "title": "Automatización con n8n"
+      },
+      "teacher": {
+        "firstName": "Jean Paul",
+        "lastName": "Raimond"
+      },
+      "teacherId": "87955e40-5f7b-4dee-adb9-fe43d6ca6369"
+    },
+    {
+      "id": "426c90fd-a37c-4b2e-96b2-4c047d0e279e",
+      "title": "Consultas SQL básicas",
+      "description": "Aprende a consultar datos en Supabase.",
+      "module": {
+        "title": "Bases de datos con Supabase"
+      },
+      "teacher": {
+        "firstName": "María",
+        "lastName": "García"
+      },
+      "teacherId": "2503cf5d-24b1-49b8-8b5b-9455ac620ebe"
+    },
+    {
+      "id": "2eaf6a4d-df3f-46d7-8833-c3fab190e810",
+      "title": "Componentes en React",
+      "description": "Crea y reutiliza componentes.",
+      "module": {
+        "title": "React para principiantes"
+      },
+      "teacher": {
+        "firstName": "Jean Paul",
+        "lastName": "Raimond"
+      },
+      "teacherId": "87955e40-5f7b-4dee-adb9-fe43d6ca6369"
+    }
+  ],
+  "modules": [
+    {
+      "id": "aa592a95-cf6c-446c-a035-1b587e060460",
+      "title": "Fundamentos de Programación",
+      "description": "Aprende los conceptos básicos de la programación",
+      "createdAt": "2025-09-07T02:28:31.614Z",
+      "createdById": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "5e1dcd73-78b6-410e-9551-692479613cd3",
+      "title": "Desarrollo Web",
+      "description": "Crea páginas web con HTML, CSS y JavaScript",
+      "createdAt": "2025-09-07T02:28:31.709Z",
+      "createdById": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "0619d210-b5a4-420c-b954-5f4d03bcca01",
+      "title": "Módulo 1: n8n",
+      "description": "Automatización de flujos con n8n.",
+      "createdAt": "2025-09-07T02:28:32.515Z",
+      "createdById": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "2c112cb1-48f8-42c1-bdb0-a40a1ad3c04c",
+      "title": "Módulo 2: Vite + React",
+      "description": "Desarrollo frontend moderno con Vite y React.",
+      "createdAt": "2025-09-07T02:28:32.566Z",
+      "createdById": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "e4d1cedf-3cd2-433b-a5fe-4d0682a714b4",
+      "title": "Módulo 3: OpenAI VAPI",
+      "description": "Integración de IA con OpenAI y Voice API.",
+      "createdAt": "2025-09-07T02:28:32.624Z",
+      "createdById": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "298637a8-aca6-4b95-88f9-a079f661698a",
+      "title": "Módulo 4: Supabase",
+      "description": "Backend as a Service y bases de datos en tiempo real.",
+      "createdAt": "2025-09-07T02:28:32.672Z",
+      "createdById": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "efef4899-255e-4508-8751-29155909a3a0",
+      "title": "Módulo 5: MCP",
+      "description": "Microservicios y Cloud Platforms.",
+      "createdAt": "2025-09-07T02:28:32.722Z",
+      "createdById": "967ddf70-a612-42d7-9a80-cb401d781453",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "e10f0fb0-ad83-4ff8-96e0-ee09693538bb",
+      "title": "Automatización con n8n",
+      "description": "Flujos de trabajo automáticos con n8n.",
+      "createdAt": "2025-09-07T02:28:33.829Z",
+      "createdById": "87955e40-5f7b-4dee-adb9-fe43d6ca6369",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "6af62177-a9e7-4053-8c89-e7dd7f80802f",
+      "title": "Bases de datos con Supabase",
+      "description": "Gestión de datos en la nube con Supabase.",
+      "createdAt": "2025-09-07T02:28:33.930Z",
+      "createdById": "2503cf5d-24b1-49b8-8b5b-9455ac620ebe",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    },
+    {
+      "id": "8d1e5e87-5dde-4a7f-bd21-632fa3b76820",
+      "title": "React para principiantes",
+      "description": "Introducción a React y componentes.",
+      "createdAt": "2025-09-07T02:28:33.880Z",
+      "createdById": "64e5bc5a-f138-4ae1-b385-a16bdff762c8",
+      "url": "https://modulo.happytribe.ai",
+      "order": null
+    }
+  ],
+  "totalUsers": 28,
+  "totalClasses": 11,
+  "totalModules": 10
+}

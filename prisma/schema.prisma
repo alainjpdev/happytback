@@ -16,8 +16,8 @@ model User {
   role              Role
   avatar            String?
   createdAt         DateTime           @default(now())
-  notes             String?
   status            String             @default("pending")
+  notes             String?
   hours             Int?
   tribe             String?
   assignmentModules AssignmentModule[]
