@@ -21,6 +21,7 @@ async function main() {
       status: 'active',
       hours: 20,
       tribe: 'Tigres',
+      group_name: 'Grupo A',
     },
   });
 
@@ -36,6 +37,7 @@ async function main() {
       status: 'active',
       hours: 40,
       tribe: 'Leones',
+      group_name: 'Grupo B',
     },
   });
 
@@ -51,6 +53,7 @@ async function main() {
       status: 'active',
       hours: 50,
       tribe: 'Águilas',
+      group_name: 'Grupo C',
     },
   });
 

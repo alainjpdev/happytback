@@ -214,6 +214,7 @@ async function main() {
       lastName: 'Raimond',
       role: 'teacher',
       tribe: 'Leones',
+      group_name: 'Grupo Profesores',
     },
   });
   const federico = await prisma.user.upsert({
@@ -226,6 +227,7 @@ async function main() {
       lastName: 'Peña',
       role: 'teacher',
       tribe: 'Leones',
+      group_name: 'Grupo Profesores',
     },
   });
   const maria = await prisma.user.upsert({
@@ -238,6 +240,7 @@ async function main() {
       lastName: 'García',
       role: 'teacher',
       tribe: 'Leones',
+      group_name: 'Grupo Profesores',
     },
   });
 

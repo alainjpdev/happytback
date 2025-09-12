@@ -20,6 +20,7 @@ model User {
   notes             String?
   hours             Int?
   tribe             String?
+  group_name        String?
   assignmentModules AssignmentModule[]
   classesTaught     Class[]            @relation("TeacherClasses")
   modulesCreated    Module[]           @relation("ModuleCreator")

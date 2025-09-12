@@ -31,7 +31,8 @@ router.get('/', authenticateToken, requireRole(['admin']), async (_req: Request,
         status: true,
         notes: true,
         hours: true,
-        tribe: true
+        tribe: true,
+        group_name: true
       }
     });
     
@@ -67,7 +68,8 @@ router.get('/debug', authenticateToken, requireRole(['admin']), async (_req: Req
         status: true,
         notes: true,
         hours: true,
-        tribe: true
+        tribe: true,
+        group_name: true
       }
     });
     
@@ -117,7 +119,8 @@ router.get('/:id', authenticateToken, async (req: AuthenticatedRequest, res: Res
         status: true, // <-- incluir status
         notes: true,  // <-- incluir notes
         hours: true,  // <-- incluir hours
-        tribe: true   // <-- incluir tribe
+        tribe: true,
+        group_name: true   // <-- incluir tribe
       }
     });
 
@@ -171,7 +174,8 @@ router.put('/:id', authenticateToken, canEditProfile, async (req: AuthenticatedR
         status: true, // <-- incluir status
         notes: true,  // <-- incluir notes
         hours: true,  // <-- incluir hours
-        tribe: true   // <-- incluir tribe
+        tribe: true,
+        group_name: true   // <-- incluir tribe
       }
     });
     console.log('[USERS] Usuario actualizado:', updatedUser.email);
