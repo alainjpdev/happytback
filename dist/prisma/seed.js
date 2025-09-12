@@ -13,10 +13,10 @@ const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        // Usuarios de muestra (ya insertados previamente)
-        const student = yield prisma.user.findUnique({ where: { email: 'student@algorithmics.com' } });
-        const teacher = yield prisma.user.findUnique({ where: { email: 'teacher@algorithmics.com' } });
-        const admin = yield prisma.user.findUnique({ where: { email: 'admin@algorithmics.com' } });
+        // Usuarios de muestra para HappyTribe
+        const student = yield prisma.user.findUnique({ where: { email: 'student@happytribe.com' } });
+        const teacher = yield prisma.user.findUnique({ where: { email: 'teacher@happytribe.com' } });
+        const admin = yield prisma.user.findUnique({ where: { email: 'admin@happytribe.com' } });
         if (!student || !teacher || !admin) {
             throw new Error('Usuarios de muestra no encontrados. Ejecuta primero el seed de usuarios.');
         }
@@ -215,6 +215,8 @@ function main() {
                 firstName: 'Jean Paul',
                 lastName: 'Raimond',
                 role: 'teacher',
+                tribe: 'Leones',
+                group_name: 'Grupo Profesores',
             },
         });
         const federico = yield prisma.user.upsert({
@@ -226,6 +228,8 @@ function main() {
                 firstName: 'Federico',
                 lastName: 'Peña',
                 role: 'teacher',
+                tribe: 'Leones',
+                group_name: 'Grupo Profesores',
             },
         });
         const maria = yield prisma.user.upsert({
@@ -237,6 +241,8 @@ function main() {
                 firstName: 'María',
                 lastName: 'García',
                 role: 'teacher',
+                tribe: 'Leones',
+                group_name: 'Grupo Profesores',
             },
         });
         // Crear módulos dummy
