@@ -52,6 +52,23 @@ router.get('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (_
         console.log('[USERS] --- FIN GET /api/users (error) ---');
     }
 }));
+// GET /api/users/test - endpoint simple para debug (solo admin)
+router.get('/test', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('[USERS TEST] --- INICIO GET /api/users/test ---');
+    try {
+        res.json({
+            message: 'Test endpoint funciona',
+            timestamp: new Date().toISOString(),
+            environment: process.env.NODE_ENV
+        });
+        console.log('[USERS TEST] --- FIN GET /api/users/test (éxito) ---');
+    }
+    catch (error) {
+        console.error('[USERS TEST] Error en test:', error);
+        res.status(500).json({ error: 'Error en test' });
+        console.log('[USERS TEST] --- FIN GET /api/users/test (error) ---');
+    }
+}));
 // GET /api/users/debug - endpoint específico para debug (solo admin)
 router.get('/debug', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
