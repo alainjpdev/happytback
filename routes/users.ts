@@ -69,6 +69,62 @@ router.get('/test', authenticateToken, requireRole(['admin']), async (_req: Requ
   }
 });
 
+// GET /api/users/prisma-test - endpoint para probar Prisma paso a paso (solo admin)
+router.get('/prisma-test', authenticateToken, requireRole(['admin']), async (_req: Request, res: Response) => {
+  console.log('[USERS PRISMA] --- INICIO GET /api/users/prisma-test ---');
+  try {
+    // Paso 1: Verificar conexión
+    console.log('[USERS PRISMA] Paso 1: Verificando conexión...');
+    await prisma.$connect();
+    console.log('[USERS PRISMA] ✅ Conexión exitosa');
+
+    // Paso 2: Consulta simple
+    console.log('[USERS PRISMA] Paso 2: Consulta simple...');
+    const simpleQuery = await prisma.user.findFirst({
+      select: { id: true, firstName: true, tribe: true, group_name: true }
+    });
+    console.log('[USERS PRISMA] ✅ Consulta simple exitosa:', simpleQuery);
+
+    // Paso 3: Consulta con todos los campos
+    console.log('[USERS PRISMA] Paso 3: Consulta con todos los campos...');
+    const fullQuery = await prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        role: true,
+        avatar: true,
+        createdAt: true,
+        status: true,
+        notes: true,
+        hours: true,
+        tribe: true,
+        group_name: true
+      },
+      take: 2
+    });
+    console.log('[USERS PRISMA] ✅ Consulta completa exitosa, usuarios:', fullQuery.length);
+
+    res.json({
+      message: 'Prisma test exitoso',
+      simpleQuery,
+      fullQuery,
+      timestamp: new Date().toISOString()
+    });
+    console.log('[USERS PRISMA] --- FIN GET /api/users/prisma-test (éxito) ---');
+  } catch (error: any) {
+    console.error('[USERS PRISMA] Error en prisma test:', error);
+    console.error('[USERS PRISMA] Stack trace:', error.stack);
+    res.status(500).json({ 
+      error: 'Error en prisma test', 
+      details: error.message,
+      stack: error.stack
+    });
+    console.log('[USERS PRISMA] --- FIN GET /api/users/prisma-test (error) ---');
+  }
+});
+
 // GET /api/users/debug - endpoint específico para debug (solo admin)
 router.get('/debug', authenticateToken, requireRole(['admin']), async (_req: Request, res: Response) => {
   console.log('[USERS] --- INICIO GET /api/users/debug ---');

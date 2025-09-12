@@ -74,6 +74,18 @@
 4. **Comparar variables de entorno** entre local y Heroku
 5. **Probar consulta directa** a la base de datos desde Heroku
 
+## ✅ **DIAGNÓSTICO COMPLETADO**
+
+### **Resultados de las pruebas:**
+- ✅ **Endpoint `/api/users/test`**: Funciona perfectamente en Heroku
+- ❌ **Endpoint `/api/users`**: Falla en Heroku con `{"error":"Error al obtener usuarios"}`
+- ✅ **Login**: Funciona en Heroku
+- ✅ **Autenticación**: Funciona en Heroku
+- ✅ **Variables de entorno**: Configuradas correctamente
+
+### **Causa identificada:**
+**El problema está específicamente en la consulta de Prisma del endpoint `/api/users`**, no en la configuración general de la aplicación.
+
 ## 📊 Estado Actual
 - ✅ **Código local**: Funciona perfectamente
 - ✅ **Base de datos**: Campos `tribe` y `group_name` presentes
