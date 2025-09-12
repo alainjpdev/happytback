@@ -22,6 +22,7 @@ model User {
 
   status    String   @default("pending") // Estado del usuario
   notes     String?  // Notas internas
+  tribe     String?  // Tribu del estudiante (Tribu 3, Tribu 4, etc.)
 
   hours     Int?     // Horas del usuario (nuevo campo)
   classesTaught   Class[]   @relation("TeacherClasses")

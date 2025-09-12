@@ -19,7 +19,8 @@ router.get('/', authenticateToken, requireRole(['admin']), async (_req, res) => 
         createdAt: true,
         status: true, // <-- incluir status
         notes: true,  // <-- incluir notes
-        hours: true   // <-- incluir hours
+        hours: true,  // <-- incluir hours
+        tribe: true   // <-- incluir tribe
       }
     });
     console.log('[USERS] Usuarios encontrados:', users.length);
@@ -79,7 +80,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
 router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
   console.log('[USERS] --- INICIO PUT /api/users/:id ---');
   const { id } = req.params;
-  const { firstName, lastName, email, avatar, status, notes, hours } = req.body;
+  const { firstName, lastName, email, avatar, status, notes, hours, tribe } = req.body;
   
   try {
     // Verificar que el email no esté en uso por otro usuario
@@ -99,7 +100,7 @@ router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
 
     const updatedUser = await prisma.user.update({
       where: { id },
-      data: { firstName, lastName, email, avatar, status, notes, hours }, // <-- permitir actualizar hours
+      data: { firstName, lastName, email, avatar, status, notes, hours, tribe }, // <-- permitir actualizar hours y tribe
       select: {
         id: true,
         email: true,
@@ -110,7 +111,8 @@ router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
         createdAt: true,
         status: true, // <-- incluir status
         notes: true,  // <-- incluir notes
-        hours: true   // <-- incluir hours
+        hours: true,  // <-- incluir hours
+        tribe: true   // <-- incluir tribe
       }
     });
     console.log('[USERS] Usuario actualizado:', updatedUser.email);
