@@ -2,10 +2,20 @@ import { Router, Request, Response } from 'express';
 import prisma from '../prisma';
 import { authenticateToken, canEditProfile, requireRole } from '../middleware/auth';
 
+// Extender el tipo Request para incluir user
+interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    role: string;
+  };
+  params: any;
+  body: any;
+}
+
 const router = Router();
 
 // GET /api/users - lista todos los usuarios (solo admin)
-router.get('/', authenticateToken, requireRole(['admin']), async (_req, res) => {
+router.get('/', authenticateToken, requireRole(['admin']), async (_req: Request, res: Response) => {
   console.log('[USERS] --- INICIO GET /api/users ---');
   try {
     const users = await prisma.user.findMany({
@@ -34,7 +44,7 @@ router.get('/', authenticateToken, requireRole(['admin']), async (_req, res) => 
 });
 
 // GET /api/users/:id - obtener perfil específico (solo el propio usuario o admin)
-router.get('/:id', authenticateToken, async (req, res) => {
+router.get('/:id', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
   console.log('[USERS] --- INICIO GET /api/users/:id ---');
   const { id } = req.params;
   const userId = req.user?.id;
@@ -58,7 +68,8 @@ router.get('/:id', authenticateToken, async (req, res) => {
         createdAt: true,
         status: true, // <-- incluir status
         notes: true,  // <-- incluir notes
-        hours: true   // <-- incluir hours
+        hours: true,  // <-- incluir hours
+        tribe: true   // <-- incluir tribe
       }
     });
 
@@ -77,7 +88,7 @@ router.get('/:id', authenticateToken, async (req, res) => {
 });
 
 // PUT /api/users/:id - actualizar datos del usuario (solo el propio usuario o admin)
-router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
+router.put('/:id', authenticateToken, canEditProfile, async (req: AuthenticatedRequest, res: Response) => {
   console.log('[USERS] --- INICIO PUT /api/users/:id ---');
   const { id } = req.params;
   const { firstName, lastName, email, avatar, status, notes, hours, tribe } = req.body;
@@ -126,7 +137,7 @@ router.put('/:id', authenticateToken, canEditProfile, async (req, res) => {
 });
 
 // DELETE /api/users/:id - eliminar usuario (solo admin)
-router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.delete('/:id', authenticateToken, requireRole(['admin']), async (req: Request, res: Response) => {
   console.log('[USERS] --- INICIO DELETE /api/users/:id ---');
   const { id } = req.params;
   try {
@@ -146,34 +157,63 @@ router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res
 });
 
 // GET /api/users/:id/modules - módulos asignados a un usuario
-router.get('/:id/modules', authenticateToken, async (req, res) => {
+router.get('/:id/modules', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  console.log('[USERS] --- INICIO GET /api/users/:id/modules ---');
   const { id } = req.params;
-  // Usar req como any para acceder a req.user sin error de tipado
-  const user = (req as any).user;
-  if (user.role !== 'admin' && user.id !== id) {
-    return res.status(403).json({ error: 'No autorizado' });
+  const userId = req.user?.id;
+  
+  try {
+    // Verificar permisos
+    if (userId !== id && req.user?.role !== 'admin') {
+      console.log('[USERS] Permiso denegado para ver módulos del usuario:', id);
+      return res.status(403).json({ error: 'No autorizado' });
+    }
+
+    const userModules = await prisma.userModule.findMany({
+      where: { userId: id },
+      include: { module: true }
+    });
+    
+    console.log('[USERS] Módulos encontrados para usuario:', id, '- Cantidad:', userModules.length);
+    res.json(userModules.map((um: any) => um.module));
+    console.log('[USERS] --- FIN GET /api/users/:id/modules (éxito) ---');
+  } catch (error) {
+    console.error('[USERS] Error al obtener módulos del usuario:', error);
+    res.status(500).json({ error: 'Error al obtener módulos del usuario' });
+    console.log('[USERS] --- FIN GET /api/users/:id/modules (error) ---');
   }
-  const userModules = await prisma['userModule'].findMany({
-    where: { userId: id },
-    include: { module: true }
-  });
-  res.json(userModules.map((um: any) => um.module));
 });
 
 // PUT /api/users/:id/modules - actualizar módulos asignados a un usuario
-router.put('/:id/modules', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.put('/:id/modules', authenticateToken, requireRole(['admin']), async (req: Request, res: Response) => {
+  console.log('[USERS] --- INICIO PUT /api/users/:id/modules ---');
   const { id } = req.params;
   const { moduleIds } = req.body;
-  if (!Array.isArray(moduleIds)) return res.status(400).json({ error: 'moduleIds debe ser un array' });
+  
+  try {
+    if (!Array.isArray(moduleIds)) {
+      console.log('[USERS] moduleIds debe ser un array:', typeof moduleIds);
+      return res.status(400).json({ error: 'moduleIds debe ser un array' });
+    }
 
-  // Elimina los módulos actuales
-  await prisma.userModule.deleteMany({ where: { userId: id } });
-  // Asigna los nuevos módulos
-  await prisma.userModule.createMany({
-    data: moduleIds.map((moduleId: string) => ({ userId: id, moduleId })),
-    skipDuplicates: true
-  });
-  res.json({ success: true });
+    // Elimina los módulos actuales
+    await prisma.userModule.deleteMany({ where: { userId: id } });
+    console.log('[USERS] Módulos actuales eliminados para usuario:', id);
+    
+    // Asigna los nuevos módulos
+    await prisma.userModule.createMany({
+      data: moduleIds.map((moduleId: string) => ({ userId: id, moduleId })),
+      skipDuplicates: true
+    });
+    
+    console.log('[USERS] Nuevos módulos asignados al usuario:', id, '- Cantidad:', moduleIds.length);
+    res.json({ success: true });
+    console.log('[USERS] --- FIN PUT /api/users/:id/modules (éxito) ---');
+  } catch (error) {
+    console.error('[USERS] Error al actualizar módulos del usuario:', error);
+    res.status(500).json({ error: 'Error al actualizar módulos del usuario' });
+    console.log('[USERS] --- FIN PUT /api/users/:id/modules (error) ---');
+  }
 });
 
 export default router; 
