@@ -18,11 +18,18 @@ const auth_1 = require("../middleware/auth");
 const router = (0, express_1.Router)();
 // GET /api/users - lista todos los usuarios (solo admin)
 router.get('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b, _c, _d;
+    console.log('[USERS] ===========================================');
     console.log('[USERS] --- INICIO GET /api/users ---');
+    console.log('[USERS] Timestamp:', new Date().toISOString());
+    console.log('[USERS] Environment:', process.env.NODE_ENV);
+    console.log('[USERS] ===========================================');
     try {
-        // Query directa para debug
-        const users = yield prisma_1.default.user.findMany({
+        console.log('[USERS] Paso 1: Verificando conexión a Prisma...');
+        yield prisma_1.default.$connect();
+        console.log('[USERS] ✅ Conexión a Prisma exitosa');
+        console.log('[USERS] Paso 2: Preparando consulta...');
+        const queryConfig = {
             select: {
                 id: true,
                 email: true,
@@ -37,19 +44,56 @@ router.get('/', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']), (_
                 tribe: true,
                 group_name: true
             }
-        });
-        console.log('[USERS] Usuarios encontrados:', users.length);
-        console.log('[USERS] Primer usuario con tribu:', (_a = users[0]) === null || _a === void 0 ? void 0 : _a.tribe);
+        };
+        console.log('[USERS] Configuración de consulta:', JSON.stringify(queryConfig, null, 2));
+        console.log('[USERS] Paso 3: Ejecutando consulta findMany...');
+        const users = yield prisma_1.default.user.findMany(queryConfig);
+        console.log('[USERS] ✅ Consulta ejecutada exitosamente');
+        console.log('[USERS] Paso 4: Analizando resultados...');
+        console.log('[USERS] Total usuarios encontrados:', users.length);
+        if (users.length > 0) {
+            console.log('[USERS] Primer usuario (completo):', JSON.stringify(users[0], null, 2));
+            console.log('[USERS] Primer usuario - tribe:', (_a = users[0]) === null || _a === void 0 ? void 0 : _a.tribe);
+            console.log('[USERS] Primer usuario - group_name:', (_b = users[0]) === null || _b === void 0 ? void 0 : _b.group_name);
+        }
         // Verificar que el campo tribe esté presente
         const usersWithTribe = users.filter((user) => user.tribe !== null);
+        const usersWithGroupName = users.filter((user) => user.group_name !== null);
         console.log('[USERS] Usuarios con tribu:', usersWithTribe.length);
-        res.json(users);
+        console.log('[USERS] Usuarios con group_name:', usersWithGroupName.length);
+        console.log('[USERS] Paso 5: Preparando respuesta...');
+        const response = {
+            success: true,
+            count: users.length,
+            users: users,
+            debug: {
+                usersWithTribe: usersWithTribe.length,
+                usersWithGroupName: usersWithGroupName.length,
+                firstUserTribe: (_c = users[0]) === null || _c === void 0 ? void 0 : _c.tribe,
+                firstUserGroupName: (_d = users[0]) === null || _d === void 0 ? void 0 : _d.group_name
+            }
+        };
+        console.log('[USERS] Respuesta preparada, enviando...');
+        res.json(response);
+        console.log('[USERS] ✅ Respuesta enviada exitosamente');
         console.log('[USERS] --- FIN GET /api/users (éxito) ---');
+        console.log('[USERS] ===========================================');
     }
     catch (error) {
-        console.error('[USERS] Error al obtener usuarios:', error);
-        res.status(500).json({ error: 'Error al obtener usuarios' });
+        console.error('[USERS] ❌ ERROR DETECTADO:');
+        console.error('[USERS] Error type:', error.constructor.name);
+        console.error('[USERS] Error message:', error.message);
+        console.error('[USERS] Error code:', error.code);
+        console.error('[USERS] Error stack:', error.stack);
+        console.error('[USERS] Error details:', JSON.stringify(error, null, 2));
+        res.status(500).json({
+            error: 'Error al obtener usuarios',
+            details: error.message,
+            type: error.constructor.name,
+            code: error.code
+        });
         console.log('[USERS] --- FIN GET /api/users (error) ---');
+        console.log('[USERS] ===========================================');
     }
 }));
 // GET /api/users/test - endpoint simple para debug (solo admin)
@@ -164,17 +208,31 @@ router.get('/debug', auth_1.authenticateToken, (0, auth_1.requireRole)(['admin']
 }));
 // GET /api/users/:id - obtener perfil específico (solo el propio usuario o admin)
 router.get('/:id', auth_1.authenticateToken, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    console.log('[USERS] --- INICIO GET /api/users/:id ---');
+    var _a, _b, _c, _d, _e;
+    console.log('[USERS_ID] ===========================================');
+    console.log('[USERS_ID] --- INICIO GET /api/users/:id ---');
+    console.log('[USERS_ID] Timestamp:', new Date().toISOString());
+    console.log('[USERS_ID] Environment:', process.env.NODE_ENV);
+    console.log('[USERS_ID] Requested ID:', req.params.id);
+    console.log('[USERS_ID] User ID from token:', (_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
+    console.log('[USERS_ID] User role from token:', (_b = req.user) === null || _b === void 0 ? void 0 : _b.role);
+    console.log('[USERS_ID] ===========================================');
     const { id } = req.params;
-    const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+    const userId = (_c = req.user) === null || _c === void 0 ? void 0 : _c.id;
     try {
+        console.log('[USERS_ID] Paso 1: Verificando permisos...');
         // Verificar permisos
-        if (userId !== id && ((_b = req.user) === null || _b === void 0 ? void 0 : _b.role) !== 'admin') {
-            console.log('[USERS] Permiso denegado para ver perfil', id);
+        if (userId !== id && ((_d = req.user) === null || _d === void 0 ? void 0 : _d.role) !== 'admin') {
+            console.log('[USERS_ID] ❌ Permiso denegado para ver perfil', id);
+            console.log('[USERS_ID] User ID:', userId, 'Requested ID:', id, 'Role:', (_e = req.user) === null || _e === void 0 ? void 0 : _e.role);
             return res.status(403).json({ error: 'No tienes permisos para ver este perfil' });
         }
-        const user = yield prisma_1.default.user.findUnique({
+        console.log('[USERS_ID] ✅ Permisos verificados correctamente');
+        console.log('[USERS_ID] Paso 2: Verificando conexión a Prisma...');
+        yield prisma_1.default.$connect();
+        console.log('[USERS_ID] ✅ Conexión a Prisma exitosa');
+        console.log('[USERS_ID] Paso 3: Preparando consulta findUnique...');
+        const queryConfig = {
             where: { id },
             select: {
                 id: true,
@@ -184,25 +242,51 @@ router.get('/:id', auth_1.authenticateToken, (req, res) => __awaiter(void 0, voi
                 role: true,
                 avatar: true,
                 createdAt: true,
-                status: true, // <-- incluir status
-                notes: true, // <-- incluir notes
-                hours: true, // <-- incluir hours
+                status: true,
+                notes: true,
+                hours: true,
                 tribe: true,
-                group_name: true // <-- incluir tribe
+                group_name: true
             }
-        });
+        };
+        console.log('[USERS_ID] Configuración de consulta:', JSON.stringify(queryConfig, null, 2));
+        console.log('[USERS_ID] Paso 4: Ejecutando consulta findUnique...');
+        const user = yield prisma_1.default.user.findUnique(queryConfig);
+        console.log('[USERS_ID] ✅ Consulta ejecutada exitosamente');
+        console.log('[USERS_ID] Paso 5: Analizando resultado...');
         if (!user) {
-            console.log('[USERS] Usuario no encontrado:', id);
+            console.log('[USERS_ID] ❌ Usuario no encontrado con ID:', id);
+            console.log('[USERS_ID] --- FIN GET /api/users/:id (no encontrado) ---');
+            console.log('[USERS_ID] ===========================================');
             return res.status(404).json({ error: 'Usuario no encontrado' });
         }
-        console.log('[USERS] Usuario encontrado:', user.email);
+        console.log('[USERS_ID] ✅ Usuario encontrado:');
+        console.log('[USERS_ID] Email:', user.email);
+        console.log('[USERS_ID] Nombre:', user.firstName, user.lastName);
+        console.log('[USERS_ID] Tribe:', user.tribe);
+        console.log('[USERS_ID] Group name:', user.group_name);
+        console.log('[USERS_ID] Usuario completo:', JSON.stringify(user, null, 2));
+        console.log('[USERS_ID] Paso 6: Enviando respuesta...');
         res.json(user);
-        console.log('[USERS] --- FIN GET /api/users/:id (éxito) ---');
+        console.log('[USERS_ID] ✅ Respuesta enviada exitosamente');
+        console.log('[USERS_ID] --- FIN GET /api/users/:id (éxito) ---');
+        console.log('[USERS_ID] ===========================================');
     }
     catch (error) {
-        console.error('[USERS] Error al obtener usuario:', error);
-        res.status(500).json({ error: 'Error al obtener usuario' });
-        console.log('[USERS] --- FIN GET /api/users/:id (error) ---');
+        console.error('[USERS_ID] ❌ ERROR DETECTADO:');
+        console.error('[USERS_ID] Error type:', error.constructor.name);
+        console.error('[USERS_ID] Error message:', error.message);
+        console.error('[USERS_ID] Error code:', error.code);
+        console.error('[USERS_ID] Error stack:', error.stack);
+        console.error('[USERS_ID] Error details:', JSON.stringify(error, null, 2));
+        res.status(500).json({
+            error: 'Error al obtener usuario',
+            details: error.message,
+            type: error.constructor.name,
+            code: error.code
+        });
+        console.log('[USERS_ID] --- FIN GET /api/users/:id (error) ---');
+        console.log('[USERS_ID] ===========================================');
     }
 }));
 // PUT /api/users/:id - actualizar datos del usuario (solo el propio usuario o admin)
